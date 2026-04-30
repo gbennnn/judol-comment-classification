@@ -1,8 +1,8 @@
-# 🛡️ Simulasi Sistem Moderasi Preventif - Judi Online Detection
+# Simulasi Sistem Moderasi Preventif - Judi Online Detection
 
-Website simulasi sistem moderasi preventif untuk mendeteksi komentar promosi judi online pada platform YouTube menggunakan Model Machine Learning **SVM Baseline**.
+Website simulasi sistem moderasi preventif untuk mendeteksi komentar promosi judi online pada platform YouTube menggunakan Model Machine Learning **SVM Classifier**.
 
-## 📋 Daftar Isi
+## Daftar Isi
 
 - [Fitur](#fitur)
 - [Arsitektur Sistem](#arsitektur-sistem)
@@ -12,56 +12,18 @@ Website simulasi sistem moderasi preventif untuk mendeteksi komentar promosi jud
 - [Pipeline Preprocessing](#pipeline-preprocessing)
 - [Decision Engine](#decision-engine)
 
-## ✨ Fitur
+## Fitur
 
 - **Real-time Comment Analysis**: Analisis komentar secara real-time
 - **Multi-stage Preprocessing**: Normalisasi unicode, obfuscation removal, URL normalization
 - **TF-IDF Vectorization**: Konversi teks menjadi representasi numerik
-- **SVM Classification**: Model SVM Baseline untuk prediksi
+- **SVM Classification**: Model SVM Classifier untuk prediksi
 - **Decision Engine**: Sistem keputusan berbasis threshold probabilitas
-- **Beautiful UI**: Interface modern dengan Tailwind CSS
-- **Responsive Design**: Kompatibel dengan desktop dan mobile
-- **Real-time Visualization**: Visualisasi probabilitas dan hasil prediksi
 
-## 🏗️ Arsitektur Sistem
+## Arsitektur Sistem
+![Arsitektur Sistem](arsitektur-sistem-preventif.jpeg) 
 
-```
-┌─────────────────┐
-│  Input Komentar │
-└────────┬────────┘
-         │
-    ┌────▼──────────────────┐
-    │ Modul Pra-pemrosesan  │
-    │  - Unicode Normalize  │
-    │  - Obfuscation Removal│
-    │  - URL Normalization  │
-    │  - Text Cleaning      │
-    └────┬──────────────────┘
-         │
-    ┌────▼──────────────────┐
-    │ Ekstraksi Fitur      │
-    │  (TF-IDF Vectorizer)  │
-    └────┬──────────────────┘
-         │
-    ┌────▼──────────────────┐
-    │ Model Klasifikasi    │
-    │ (SVM Baseline)        │
-    │ Output: Probability   │
-    └────┬──────────────────┘
-         │
-    ┌────▼──────────────────┐
-    │ Decision Engine       │
-    │ Threshold = 50%       │
-    └────┬──────────────────┘
-         │
-    ┌────▼──────────────────┐
-    │ Tindakan Preventif   │
-    │ - Publikasi Normal    │
-    │ - Blokir Otomatis     │
-    └──────────────────────┘
-```
-
-## 🚀 Instalasi
+## Instalasi
 
 ### Prasyarat
 - Python 3.8+
@@ -71,7 +33,7 @@ Website simulasi sistem moderasi preventif untuk mendeteksi komentar promosi jud
 
 ```bash
 # Masuk ke folder project
-cd web_moderasi
+cd web_simulasi
 
 # Buat virtual environment (opsional tapi recommended)
 python -m venv venv
@@ -110,7 +72,7 @@ Test set: (xxx, 1)
 Creating TF-IDF vectorizer...
 TF-IDF shape: (xxx, 5000)
 
-Training SVM Baseline Model...
+Training SVM Classifier Model...
 Training Score: 0.xxxx
 Test Score: 0.xxxx
 
@@ -122,7 +84,7 @@ Saving model and vectorizer...
 ✓ All models saved successfully!
 ```
 
-## 💻 Cara Penggunaan
+## Cara Penggunaan
 
 ### Menjalankan Aplikasi
 
@@ -144,24 +106,7 @@ Aplikasi akan berjalan di `http://localhost:5000`
    - Decision (Publikasi Normal / Blokir Otomatis)
    - Teks setelah preprocessing
 
-### Contoh Input
-
-**Contoh 1 - Komentar Normal** (Expected: Publikasi Normal)
-```
-Nonton vidio nih keren banget
-```
-
-**Contoh 2 - Komentar Judi** (Expected: Blokir Otomatis)
-```
-Buruan join casino online kami sekarang
-```
-
-**Contoh 3 - Dengan Obfuscation** (Expected: Blokir Otomatis)
-```
-Mau main togel? klik link iniiii 🅿️🅻 jaminan jackpot
-```
-
-## 🔧 Komponen Sistem
+## Komponen Sistem
 
 ### 1. **Backend (Flask)**
 
@@ -202,9 +147,9 @@ Mau main togel? klik link iniiii 🅿️🅻 jaminan jackpot
 - Train SVM model
 - Save model dan vectorizer ke pickle files
 
-## 🔄 Pipeline Preprocessing
+## Pipeline Preprocessing
 
-### 1. Unicode Normalization (NFKD)
+### 1. Unicode Normalization (NFKD dan NFKC)
 Mengubah karakter unicode yang tidak standard menjadi bentuk canonical.
 
 **Contoh**:
@@ -249,7 +194,7 @@ Input: "Join!!!  SEKARANG @@ Link #$%"
 Output: "join sekarang link"
 ```
 
-## ⚙️ Decision Engine
+## Decision Engine
 
 ### Threshold-based Decision System
 
@@ -271,36 +216,11 @@ ELSE:
 | 0 - 50% | PUBLIKASI NORMAL | ✓ Komentar dipublikasikan |
 | 50% - 100% | BLOKIR OTOMATIS | ✗ Komentar disembunyikan |
 
-## 📊 Output Prediksi
 
-Sistem mengembalikan response JSON dengan struktur:
-
-```json
-{
-    "error": false,
-    "original_comment": "teks asli",
-    "cleaned_comment": "teks setelah preprocessing",
-    "prediction": {
-        "class": "Promosi Judi Online",
-        "class_code": 1,
-        "probability_non_judi": 0.25,
-        "probability_judi": 0.75,
-        "confidence": 0.75
-    },
-    "decision": {
-        "verdict": "BLOKIR OTOMATIS",
-        "action": "Komentar disembunyikan dan tidak akan dipublikasikan",
-        "severity": "high",
-        "color": "red"
-    },
-    "threshold": 0.5
-}
-```
-
-## 📁 Struktur Folder
+## Struktur Folder
 
 ```
-web_moderasi/
+web_simulasi/
 ├── app.py                          # Flask main app
 ├── save_model.py                   # Script untuk save model
 ├── requirements.txt                # Dependencies
@@ -313,64 +233,6 @@ web_moderasi/
     └── index.html                  # Frontend interface
 ```
 
-## 🧪 Testing
+## License
 
-### Gunakan Example Comments
-
-Website menyediakan beberapa contoh komentar:
-
-1. **Normal Comment**: "Nonton vidio nih keren banget"
-2. **Judi Comment**: "Buruan join casino online kami sekarang"
-3. **Obfuscated**: "Mau main togel? klik link iniiii..." (dengan emoji obfuscation)
-
-Klik salah satu untuk auto-fill textarea, lalu klik "Analisis Komentar".
-
-### API Testing dengan cURL
-
-```bash
-# Test prediksi
-curl -X POST http://localhost:5000/api/predict \
-  -H "Content-Type: application/json" \
-  -d '{"comment": "Buruan join casino online kami sekarang"}'
-
-# Get system info
-curl http://localhost:5000/api/info
-```
-
-## ⚠️ Troubleshooting
-
-### Error: Model not found
-
-**Solusi**: Jalankan `python save_model.py` terlebih dahulu untuk generate model files.
-
-### Error: Dataset not found
-
-**Solusi**: Pastikan file `dataset/dataset_judol_clean.csv` ada di folder parent (`../dataset/`).
-
-### Port sudah digunakan
-
-**Solusi**: Ubah port di `app.py`:
-```python
-if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5001)  # Change 5000 to 5001
-```
-
-### Model performance rendah
-
-**Solusi**: Periksa:
-1. Dataset sudah di-preprocessing dengan benar
-2. Train/test split ratio sudah sesuai
-3. Model sudah converged saat training
-
-## 📝 License
-
-Proyek ini merupakan bagian dari skripsi untuk klasifikasi komentar judi online.
-
-## 👨‍💻 Author
-
-Dibuat sebagai simulasi sistem moderasi preventif untuk penelitian skripsi.
-
----
-
-**Last Updated**: 2026
-**Status**: ✓ Production Ready
+Proyek ini merupakan bagian dari skripsi untuk klasifikasi komentar judi online. Lihat [LICENSE](../LICENSE) untuk detail lisensi.
