@@ -172,12 +172,12 @@ EXAMPLE_COMMENTS = [
         "description": "Contoh komentar normal"
     },
     {
-        "text": "Buruan join casino online kami sekarang",
+        "text": "Keren banget ❤𝐌𝐎𝐍𝐀 𝟒𝐃🔴! Ceritanya bikin mikir, gameplay-nya super mulus, dan hadiahnya bikin dompet senyum lebar! 💪",
         "category": "judi",
         "description": "Contoh komentar judi"
     },
     {
-        "text": "Mau main togel? klik link iniiii 🅿️🅻 jaminan jackpot",
+        "text": "06:00 🅿️🆄🅻🅰️🆄777, permainan seru dan penuh keuntungan!",
         "category": "judi",
         "description": "Contoh dengan obfuscation"
     }
