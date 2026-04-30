@@ -216,23 +216,6 @@ ELSE:
 | 0 - 50% | PUBLIKASI NORMAL | ✓ Komentar dipublikasikan |
 | 50% - 100% | BLOKIR OTOMATIS | ✗ Komentar disembunyikan |
 
-
-## Struktur Folder
-
-```
-web_simulasi/
-├── app.py                          # Flask main app
-├── save_model.py                   # Script untuk save model
-├── requirements.txt                # Dependencies
-├── README.md                       # Dokumentasi ini
-├── models/                         # Folder untuk menyimpan model
-│   ├── svm_model.pkl              # Model SVM (dibuat saat save_model.py dijalankan)
-│   ├── tfidf_vectorizer.pkl       # TF-IDF vectorizer (dibuat saat save_model.py dijalankan)
-│   └── preprocessing_dict.pkl     # Obfuscation dict (dibuat saat save_model.py dijalankan)
-└── templates/
-    └── index.html                  # Frontend interface
-```
-
 ## License
 
 Proyek ini merupakan bagian dari skripsi untuk klasifikasi komentar judi online. Lihat [LICENSE](../LICENSE) untuk detail lisensi.
