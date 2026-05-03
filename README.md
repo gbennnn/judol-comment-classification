@@ -5,4 +5,5 @@ Machine learning-based text classification system for detecting and filtering Yo
 
 
 # Demo
+Watch the demo: https://youtu.be/RfaJTMXTPA0?si=Kf3twQtkLj6y0aRJ
 ![Simulation](demo.gif)
