@@ -37,7 +37,7 @@
 **Kolom:**
 - `site`: Nama domain situs perjudian
 
-**Contoh isi:** 121rojer, 123full, 123vegas, 5unsur, dll.
+**Contoh isi:** 121rojer, 123full, 123vegas, 5unsur, tkp62 dll.
 
 **Kegunaan:** Referensi untuk mengidentifikasi mention situs perjudian dalam komentar YouTube atau untuk validasi data.
 
