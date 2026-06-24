@@ -1,4 +1,4 @@
-env/
+myenv/
 .env
 docs/
 main_temp.ipynb
