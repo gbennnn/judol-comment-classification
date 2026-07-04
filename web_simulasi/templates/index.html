@@ -371,9 +371,7 @@
 
     <!-- JavaScript -->
     <script>
-        // =====================================================
         // UTILITY FUNCTIONS
-        // =====================================================
 
         function updateCharCount() {
             const textarea = document.getElementById('commentInput');
@@ -393,9 +391,7 @@
             document.getElementById('commentInput').focus();
         }
 
-        // =====================================================
         // PREDICTION FUNCTION
-        // =====================================================
 
         async function predictComment() {
             const comment = document.getElementById('commentInput').value.trim();
@@ -446,9 +442,7 @@
             }
         }
 
-        // =====================================================
         // DISPLAY RESULTS
-        // =====================================================
 
         function displayResults(data) {
             const resultsContainer = document.getElementById('resultsContainer');
@@ -457,7 +451,7 @@
             // Show results container
             resultsContainer.style.display = 'block';
 
-            // ===== DECISION CARD =====
+            // DECISION CARD
             const decision = data.decision;
             const severity = decision.severity;
             
@@ -479,14 +473,14 @@
                 document.getElementById('decisionDesc').className = 'text-sm text-green-600';
             }
 
-            // ===== PREDICTION CLASS =====
+            // PREDICTION CLASS
             const prediction = data.prediction;
             const classText = prediction.class_code === 1 ? '🚨 Promosi Judi Online' : '✓ Non-Promosi';
             const classColor = prediction.class_code === 1 ? 'text-red-400' : 'text-green-400';
             document.getElementById('predictionClass').textContent = classText;
             document.getElementById('predictionClass').className = classColor;
 
-            // ===== PROBABILITIES =====
+            // PROBABILITIES
             const probNonJudi = (prediction.probability_non_judi * 100).toFixed(2);
             const probJudi = (prediction.probability_judi * 100).toFixed(2);
             const confidence = (prediction.confidence * 100).toFixed(2);
@@ -503,7 +497,7 @@
                 document.getElementById('confidenceBar').style.width = confidence + '%';
             }, 100);
 
-            // ===== PROCESSED TEXT =====
+            // PROCESSED TEXT
             document.getElementById('processedText').textContent = data.cleaned_comment;
 
             // Scroll to results
@@ -512,9 +506,7 @@
             }, 300);
         }
 
-        // =====================================================
         // NOTIFICATION SYSTEM
-        // =====================================================
 
         function showNotification(message, type = 'info') {
             const notif = document.createElement('div');
@@ -535,9 +527,7 @@
             }, 4000);
         }
 
-        // =====================================================
         // EVENT LISTENERS
-        // =====================================================
 
         document.getElementById('commentInput').addEventListener('input', updateCharCount);
         document.getElementById('commentInput').addEventListener('keypress', (e) => {
