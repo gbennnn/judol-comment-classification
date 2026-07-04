@@ -12,9 +12,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.svm import SVC
 
-# =====================================================
 # PREPROCESSING FUNCTIONS
-# =====================================================
 
 obfuscation_dict = {
     # === HURUF (ENCLOSED / SQUARE) ===
@@ -90,9 +88,7 @@ def preprocess_text(text):
     text = clean_text(text)
     return text
 
-# =====================================================
 # MAIN - SAVE MODEL
-# =====================================================
 
 if __name__ == "__main__":
     print("Loading dataset...")
@@ -136,15 +132,15 @@ if __name__ == "__main__":
     print("\nSaving model and vectorizer...")
     with open('models/svm_model.pkl', 'wb') as f:
         pickle.dump(model_svm, f)
-    print("✓ Model saved: models/svm_model.pkl")
+    print("Model saved: models/svm_model.pkl")
     
     with open('models/tfidf_vectorizer.pkl', 'wb') as f:
         pickle.dump(tfidf, f)
-    print("✓ Vectorizer saved: models/tfidf_vectorizer.pkl")
+    print("Vectorizer saved: models/tfidf_vectorizer.pkl")
     
     # Save preprocessing function
     with open('models/preprocessing_dict.pkl', 'wb') as f:
         pickle.dump(obfuscation_dict, f)
-    print("✓ Preprocessing dict saved: models/preprocessing_dict.pkl")
+    print("Preprocessing dict saved: models/preprocessing_dict.pkl")
     
-    print("\n✓ All models saved successfully!")
+    print("\nAll models saved successfully!")
