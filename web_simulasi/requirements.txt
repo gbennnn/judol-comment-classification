@@ -1,8 +1,9 @@
 Flask
-gunicorn
-numpy
 pandas
+numpy
 scikit-learn
-scipy
-joblib
 imbalanced-learn
+unicodedata2
+Werkzeug
+gunicorn
+joblib
