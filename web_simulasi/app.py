@@ -4,7 +4,7 @@ Menggunakan Model SVM Baseline
 """
 
 from flask import Flask, render_template, request, jsonify
-import pickle
+import joblib
 import re
 import unicodedata
 import os
@@ -99,21 +99,39 @@ def preprocess_text(text):
 # LOAD MODELS
 # =====================================================
 
+# try:
+#     # Load SVM model
+#     with open('models/svm_model.pkl', 'rb') as f:
+#         svm_model = pickle.load(f)
+#     print("✓ SVM model loaded successfully")
+# except FileNotFoundError:
+#     print("✗ Error: SVM model not found. Run save_model.py first!")
+#     svm_model = None
+
+# try:
+#     # Load TF-IDF vectorizer
+#     with open('models/tfidf_vectorizer.pkl', 'rb') as f:
+#         tfidf_vectorizer = pickle.load(f)
+#     print("✓ TF-IDF vectorizer loaded successfully")
+# except FileNotFoundError:
+#     print("✗ Error: TF-IDF vectorizer not found. Run save_model.py first!")
+#     tfidf_vectorizer = None
+
 try:
-    # Load SVM model
-    with open('models/svm_model.pkl', 'rb') as f:
-        svm_model = pickle.load(f)
+    # Load SVM model (relative path)
+    svm_path = os.path.join(os.path.dirname(__file__), 'models', 'svm_model.pkl')
+    svm_model = joblib.load(svm_path)
     print("✓ SVM model loaded successfully")
-except FileNotFoundError:
+except Exception:
     print("✗ Error: SVM model not found. Run save_model.py first!")
     svm_model = None
 
 try:
-    # Load TF-IDF vectorizer
-    with open('models/tfidf_vectorizer.pkl', 'rb') as f:
-        tfidf_vectorizer = pickle.load(f)
+    # Load TF-IDF vectorizer (relative path)
+    tfidf_path = os.path.join(os.path.dirname(__file__), 'models', 'tfidf_vectorizer.pkl')
+    tfidf_vectorizer = joblib.load(tfidf_path)
     print("✓ TF-IDF vectorizer loaded successfully")
-except FileNotFoundError:
+except Exception:
     print("✗ Error: TF-IDF vectorizer not found. Run save_model.py first!")
     tfidf_vectorizer = None
 
@@ -281,5 +299,8 @@ def internal_error(error):
 # RUN APP
 # =====================================================
 
-if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5000)
+# if __name__ == '__main__':
+#     app.run(debug=True, host='0.0.0.0', port=5000)
+
+if __name__ == "__main__":
+    app.run()
