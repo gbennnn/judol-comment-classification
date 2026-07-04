@@ -8,18 +8,29 @@ import joblib
 import re
 import unicodedata
 import os
-import json
+# import json
 
-# =====================================================
 # INITIALIZE FLASK APP
-# =====================================================
 
 app = Flask(__name__)
 app.config['JSON_SORT_KEYS'] = False
 
-# =====================================================
 # PREPROCESSING FUNCTIONS
-# =====================================================
+
+# Load obfuscation mapping from JSON file
+# with open(
+#     "obfuscation_mapping.json",
+#     "r",
+#     encoding="utf-8"
+# ) as f:
+#     OBF_MAP = json.load(f)
+
+# def replace_obfuscation_json(text, mapping):
+
+#     return ''.join(
+#         mapping.get(char, char)
+#         for char in text
+#     )
 
 obfuscation_dict = {
     # === HURUF (ENCLOSED / SQUARE) ===
@@ -93,51 +104,31 @@ def preprocess_text(text):
     text = normalize_urls(text)
     # 5. Clean text
     text = clean_text(text)
+
     return text
+    
 
-# =====================================================
 # LOAD MODELS
-# =====================================================
-
-# try:
-#     # Load SVM model
-#     with open('models/svm_model.pkl', 'rb') as f:
-#         svm_model = pickle.load(f)
-#     print("✓ SVM model loaded successfully")
-# except FileNotFoundError:
-#     print("✗ Error: SVM model not found. Run save_model.py first!")
-#     svm_model = None
-
-# try:
-#     # Load TF-IDF vectorizer
-#     with open('models/tfidf_vectorizer.pkl', 'rb') as f:
-#         tfidf_vectorizer = pickle.load(f)
-#     print("✓ TF-IDF vectorizer loaded successfully")
-# except FileNotFoundError:
-#     print("✗ Error: TF-IDF vectorizer not found. Run save_model.py first!")
-#     tfidf_vectorizer = None
 
 try:
     # Load SVM model (relative path)
     svm_path = os.path.join(os.path.dirname(__file__), 'models', 'svm_model.pkl')
     svm_model = joblib.load(svm_path)
-    print("✓ SVM model loaded successfully")
+    print("SVM model loaded successfully")
 except Exception:
-    print("✗ Error: SVM model not found. Run save_model.py first!")
+    print("Error: SVM model not found. Run save_model.py first!")
     svm_model = None
 
 try:
     # Load TF-IDF vectorizer (relative path)
     tfidf_path = os.path.join(os.path.dirname(__file__), 'models', 'tfidf_vectorizer.pkl')
     tfidf_vectorizer = joblib.load(tfidf_path)
-    print("✓ TF-IDF vectorizer loaded successfully")
+    print("TF-IDF vectorizer loaded successfully")
 except Exception:
-    print("✗ Error: TF-IDF vectorizer not found. Run save_model.py first!")
+    print("Error: TF-IDF vectorizer not found. Run save_model.py first!")
     tfidf_vectorizer = None
 
-# =====================================================
 # DECISION ENGINE
-# =====================================================
 
 THRESHOLD = 0.50
 
@@ -167,9 +158,7 @@ def make_decision(probability_judi):
         "severity": severity
     }
 
-# =====================================================
 # FLASK ROUTES
-# =====================================================
 
 @app.route('/')
 def index():
@@ -211,7 +200,7 @@ def predict():
                 'message': 'Model belum dimuat. Silakan jalankan save_model.py terlebih dahulu'
             }), 500
         
-        # =========== PREPROCESSING ==========
+        # PREPROCESSING 
         original_comment = comment
         comment_clean = preprocess_text(comment)
         
@@ -221,20 +210,20 @@ def predict():
                 'message': 'Komentar tidak valid setelah preprocessing'
             }), 400
         
-        # =========== FEATURE EXTRACTION ==========
+        # FEATURE EXTRACTION 
         comment_tfidf = tfidf_vectorizer.transform([comment_clean])
         
-        # =========== PREDICTION ==========
+        # PREDICTION 
         prediction = svm_model.predict(comment_tfidf)[0]
         probabilities = svm_model.predict_proba(comment_tfidf)[0]
         
         prob_non_judi = probabilities[0]  # Class 0
         prob_judi = probabilities[1]      # Class 1
         
-        # =========== DECISION ENGINE ==========
+        # DECISION ENGINE 
         decision_data = make_decision(prob_judi)
         
-        # =========== RESPONSE ==========
+        # RESPONSE 
         response = {
             'error': False,
             'original_comment': original_comment,
@@ -283,9 +272,7 @@ def info():
         'status': 'ready' if (svm_model is not None and tfidf_vectorizer is not None) else 'error'
     }), 200
 
-# =====================================================
 # ERROR HANDLERS
-# =====================================================
 
 @app.errorhandler(404)
 def not_found(error):
@@ -295,12 +282,11 @@ def not_found(error):
 def internal_error(error):
     return jsonify({'error': True, 'message': 'Internal server error'}), 500
 
-# =====================================================
 # RUN APP
-# =====================================================
 
 # if __name__ == '__main__':
 #     app.run(debug=True, host='0.0.0.0', port=5000)
 
+# utk deploy ke render.com
 if __name__ == "__main__":
     app.run()

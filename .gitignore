@@ -3,4 +3,4 @@ myenv/
 docs/
 main_temp.ipynb
 dataset/eda.ipynb
-dataset/lab/*
+# dataset/lab/*
