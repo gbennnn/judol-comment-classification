@@ -76,6 +76,9 @@ def clean_text(text):
 
 def preprocess_text(text):
     """Complete preprocessing pipeline"""
+    # Hapus data duplikat
+    text = text.drop_duplicates().reset_index(drop=True)
+        
     # 1. Unicode normalization
     text = normalize_unicode(text)
     # 2. Replace obfuscation
@@ -86,18 +89,25 @@ def preprocess_text(text):
     text = normalize_urls(text)
     # 5. Clean text
     text = clean_text(text)
+
+    # 6. Hapus data duplikat lagi
+    text = text.drop_duplicates().reset_index(drop=True)
+
+    # 7. Hapus data kosong
+    text = text[text != ''].reset_index(drop=True)
+
     return text
 
 # MAIN - SAVE MODEL
 
 if __name__ == "__main__":
     print("Loading dataset...")
-    df = pd.read_csv('../dataset/dataset_judol_clean.csv')
+    df = pd.read_csv('../dataset/lab/dataset_judol_labelled_full.csv')
     
     print(f"Dataset shape: {df.shape}")
     
     # Prepare data
-    X = df['comment_text_clean']
+    X = df['comment_text']
     y = df['label']
     
     # Split data
@@ -118,7 +128,13 @@ if __name__ == "__main__":
     
     # Train SVM Baseline Model
     print("\nTraining SVM Baseline Model...")
-    model_svm = SVC(kernel='linear', class_weight='balanced', probability=True)
+    model_svm = SVC(
+        C=1, 
+        class_weight=None,
+        kernel='linear', 
+        probability=True,
+        random_state=42
+        )
     model_svm.fit(X_train_tfidf, y_train)
     
     # Evaluate
