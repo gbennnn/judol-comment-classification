@@ -130,7 +130,7 @@ except Exception:
 
 # DECISION ENGINE
 
-THRESHOLD = 0.50
+THRESHOLD = 0.30
 
 def make_decision(probability_judi):
     """
